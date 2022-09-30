@@ -25,13 +25,14 @@ idArray.map((id) => {
         counter.innerText = String(count);
     });
     console.log(idArray);
+    let section2 = document.getElementById(`dbl_${id}`);
+    section2.addEventListener('click', () => {
+        count -= id * 2;
+        counter.innerText = String(count);
+        console.log(section2);
+    });
 });
 
 //double
-let section2 = document.getElementById('dbl_5');
-section2.addEventListener('click', () => {
-    count -= 5 * 2;
-    counter.innerText = String(count);
-    console.log(section2);
-});
+
 // debugger;
