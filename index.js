@@ -6,7 +6,7 @@ counter.innerText = String(count);
 let idArray = [];
 
 bullseye.addEventListener('click', () => {
-    count = 'bullseye!';
+    count -= 50;
     counter.innerText = String(count);
     console.log(count);
 });
