@@ -8,23 +8,27 @@ const sngl25 = document.getElementById('sngl_25')
 const counter = document.getElementById('counter');
 let turnsList = document.getElementById('turns-list');
 
-let turnsCounter = 0
 let count = 501;
 counter.innerText = String(count);
+let turnsArray = [];
 let idArray = [];
 
 function handleClick(num){
     count -= num;
     counter.innerText = String(count);
-    turnsCounter += num
-    let scoreList = document.createElement("li")
+
+    turnsArray.length === 3
+    ? turnsArray = [num]
+    : turnsArray.push(num);
+
+    console.log(turnsArray);
+    /* let scoreList = document.createElement("li")
     scoreList.innerText = String(num)
-    turnsList.appendChild(scoreList)
-    console.log(count);
+    turnsList.appendChild(scoreList) */
+    // console.log(count);
 }
 
 bullseye.addEventListener('click', () => handleClick(50));
-
 sngl25.addEventListener('click', () => handleClick(25)
 );
 
@@ -35,7 +39,7 @@ for (let i = 1; i < 21; i++) {
 //mapping for single scores
 idArray.map((id) => {
     //mapping for single scores
-    console.log(idArray);
+    // console.log(idArray);
 
     let singlePoints = document.getElementById(`sngl_${id}`);
     let doublePoints = document.getElementById(`dbl_${id}`);
