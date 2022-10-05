@@ -1,3 +1,8 @@
+/*
+REFACTOR:
+1. Pull out the click event listeners into a sepaate module
+2.  */
+
 const bullseye = document.getElementById('bullseye');
 const sngl25 = document.getElementById('sngl_25')
 const counter = document.getElementById('counter');
@@ -8,26 +13,20 @@ let count = 501;
 counter.innerText = String(count);
 let idArray = [];
 
-bullseye.addEventListener('click', () => {
-    count -= 50;
+function handleClick(num){
+    count -= num;
     counter.innerText = String(count);
-    turnsCounter += 50
+    turnsCounter += num
     let scoreList = document.createElement("li")
-    scoreList.innerText = String(50)
+    scoreList.innerText = String(num)
     turnsList.appendChild(scoreList)
     console.log(count);
-});
+}
 
-sngl25.addEventListener('click', () => {
-    count -= 25;
-    counter.innerText = String(count);
-    turnsCounter += 25
-    let scoreList = document.createElement("li")
-    scoreList.innerText = String(25)
-    turnsList.appendChild(scoreList)
+bullseye.addEventListener('click', () => handleClick(50));
 
-    console.log(count);
-})
+sngl25.addEventListener('click', () => handleClick(25)
+);
 
 for (let i = 1; i < 21; i++) {
     let currentId = i;
@@ -36,37 +35,19 @@ for (let i = 1; i < 21; i++) {
 //mapping for single scores
 idArray.map((id) => {
     //mapping for single scores
-    let section1 = document.getElementById(`sngl_${id}`);
-
-    section1.addEventListener('click', () => {
-        count -= id;
-        counter.innerText = String(count);
-        turnsCounter += id
-        let scoreList = document.createElement("li")
-        scoreList.innerText = String(id)
-        turnsList.appendChild(scoreList)
-    });
     console.log(idArray);
-    let section2 = document.getElementById(`dbl_${id}`);
-    section2.addEventListener('click', () => {
-         count -= id * 2;       
-        counter.innerText = String(count);
-        turnsCounter += id *2
-        let scoreList = document.createElement("li")
-        scoreList.innerText = String(id*2)
-        turnsList.appendChild(scoreList)
-        console.log(section2);
-    });
-    let section3 = document.getElementById(`trpl_${id}`);
-    section3.addEventListener('click', () => {
-        count -= id * 3;
-        counter.innerText = String(count);
-        turnsCounter += id *3
-        let scoreList = document.createElement("li")
-        scoreList.innerText = String(id*3)
-        turnsList.appendChild(scoreList)
-        console.log(section3);
-    });
+
+    let singlePoints = document.getElementById(`sngl_${id}`);
+    let doublePoints = document.getElementById(`dbl_${id}`);
+    let triplePoints = document.getElementById(`trpl_${id}`);
+
+    singlePoints.addEventListener('click', () => handleClick(id));
+    doublePoints.addEventListener('click', () => handleClick((id * 2)));
+    triplePoints.addEventListener('click', () => handleClick((id * 3)));
+
+
+
+
 });
 
 if(count === 0){
