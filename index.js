@@ -16,17 +16,16 @@ let idArray = [];
 function handleClick(num){
     count -= num;
     counter.innerText = String(count);
-
-    turnsArray.length === 3
-    ? turnsArray = [num]
-    : turnsArray.push(num);
-
+let scoreList = document.createElement("li");
+if(turnsArray.length === 3){
+    turnsArray = [num] ;
+     turnsList.innerHTML = `<li>${num}</li>`
+}else{
+    turnsArray.push(num);
+    scoreList.innerText = String(num);
+    turnsList.appendChild(scoreList) ;
     console.log(turnsArray);
-    /* let scoreList = document.createElement("li")
-    scoreList.innerText = String(num)
-    turnsList.appendChild(scoreList) */
-    // console.log(count);
-}
+}}
 
 bullseye.addEventListener('click', () => handleClick(50));
 sngl25.addEventListener('click', () => handleClick(25)
