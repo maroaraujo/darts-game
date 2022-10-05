@@ -8,7 +8,7 @@ const sngl25 = document.getElementById('sngl_25')
 const counter = document.getElementById('counter');
 let turnsList = document.getElementById('turns-list');
 
-let count = 501;
+let count = 20;
 counter.innerText = String(count);
 let turnsArray = [];
 let idArray = [];
@@ -16,16 +16,29 @@ let idArray = [];
 function handleClick(num){
     count -= num;
     counter.innerText = String(count);
-let scoreList = document.createElement("li");
+    let scoreList = document.createElement("li");
+    scoreList.innerText = String(num);
 if(turnsArray.length === 3){
     turnsArray = [num] ;
-     turnsList.innerHTML = `<li>${num}</li>`
+    //We used the same line 3 times because once the first child is removed the next child becomes the first child. 
+    turnsList.removeChild(turnsList.firstChild); //see if this can be done with 1 line of code. 
+    turnsList.removeChild(turnsList.firstChild);
+    turnsList.removeChild(turnsList.firstChild);
+    turnsList.appendChild(scoreList);
 }else{
     turnsArray.push(num);
-    scoreList.innerText = String(num);
     turnsList.appendChild(scoreList) ;
     console.log(turnsArray);
-}}
+}
+
+if(count === 0){
+    counter.innerText = "Checked out! :D";
+} else if (count < 0) {
+    count = count + turnsArray.reduce((prev, cur) => prev + cur, 0);
+    counter.innerText = String(count);
+}
+
+console.log("count just changed", count)}
 
 bullseye.addEventListener('click', () => handleClick(50));
 sngl25.addEventListener('click', () => handleClick(25)
@@ -53,14 +66,9 @@ idArray.map((id) => {
 
 });
 
-if(count === 0){
-    counter.innerText = "Checked out! :D";
-} 
+//ENDGAME LOGIC: 
+/*
+1. Has to end on exactly 0
+2. If the current throw puts the score below zero, all the throws in current turn get reversed.
+3. The last throw has to be a double or a bullseye */
 
-//double
-
-// debugger;
-
-//RULES
-// You have to finish on a double OR bullseye
-//
