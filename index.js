@@ -1,47 +1,61 @@
-/*
-REFACTOR:
-1. Pull out the click event listeners into a sepaate module
-2.  */
 
 const bullseye = document.getElementById('bullseye');
 const sngl25 = document.getElementById('sngl_25')
 const counter = document.getElementById('counter');
 let turnsList = document.getElementById('turns-list');
+let missedButton = document.getElementById('missed-button');
+let outerCircle = document.getElementById('outer_circle');
 
-let count = 20;
+let count = 50;
 counter.innerText = String(count);
 let turnsArray = [];
 let idArray = [];
+function clearList(){
+    for(let i = 0; i < turnsArray.length; i++) {
+        turnsList.removeChild(turnsList.firstChild)
+    }
+    
+};
 
-function handleClick(num){
+function handleClick(num, e){
     count -= num;
     counter.innerText = String(count);
     let scoreList = document.createElement("li");
     scoreList.innerText = String(num);
-if(turnsArray.length === 3){
-    turnsArray = [num] ;
-    //We used the same line 3 times because once the first child is removed the next child becomes the first child. 
-    turnsList.removeChild(turnsList.firstChild); //see if this can be done with 1 line of code. 
-    turnsList.removeChild(turnsList.firstChild);
-    turnsList.removeChild(turnsList.firstChild);
-    turnsList.appendChild(scoreList);
-}else{
-    turnsArray.push(num);
-    turnsList.appendChild(scoreList) ;
-    console.log(turnsArray);
-}
 
-if(count === 0){
+//As long as the number of turns is less than 3, it adds the current throw score to the turnsArray.
+//If the number of turns is 3, it clears the list and then adds the current throw score to turnsArray.
+//Regardless of which condition is triggered, it adds the current throw score to the list. 
+if(turnsArray.length < 3){
+    turnsArray.push(num);
+}else{
+    clearList();
+    turnsArray = [num] ;
+}
+turnsList.appendChild(scoreList);
+
+
+if(count === 0 && (e.target.id.includes("dbl") || e.target.id === 'bullseye') ){
     counter.innerText = "Checked out! :D";
-} else if (count < 0) {
+
+} else if (count < 0 || count === 1) {
     count = count + turnsArray.reduce((prev, cur) => prev + cur, 0);
     counter.innerText = String(count);
+    clearList();
+    counter.innerText = "You're bust :("
+} else if (count === 0 && (!e.target.id.includes("dbl")) ){
+    count = count + turnsArray.reduce((prev, cur) => prev + cur, 0);
+    counter.innerText = String(count);
+    clearList();
+    counter.innerText = "You need to finish with a double or bullseye"
 }
 
 console.log("count just changed", count)}
 
-bullseye.addEventListener('click', () => handleClick(50));
-sngl25.addEventListener('click', () => handleClick(25)
+outerCircle.addEventListener('click', (e) => handleClick(0,e));
+missedButton.addEventListener('click', (e) => handleClick(0,e));
+bullseye.addEventListener('click', (e) => handleClick(50,e));
+sngl25.addEventListener('click', (e) => handleClick(25,e)
 );
 
 for (let i = 1; i < 21; i++) {
@@ -57,18 +71,27 @@ idArray.map((id) => {
     let doublePoints = document.getElementById(`dbl_${id}`);
     let triplePoints = document.getElementById(`trpl_${id}`);
 
-    singlePoints.addEventListener('click', () => handleClick(id));
-    doublePoints.addEventListener('click', () => handleClick((id * 2)));
-    triplePoints.addEventListener('click', () => handleClick((id * 3)));
+    singlePoints.addEventListener('click', (e) => handleClick(id,e));
+    doublePoints.addEventListener('click', (e) => handleClick((id * 2),e));
+    triplePoints.addEventListener('click', (e) => handleClick((id * 3),e));
 
 
 
 
 });
 
-//ENDGAME LOGIC: 
+
 /*
-1. Has to end on exactly 0
+Endgame rules:
+1. Has to end on exactly 0 - done
 2. If the current throw puts the score below zero, all the throws in current turn get reversed.
-3. The last throw has to be a double or a bullseye */
+3. The last throw has to be a double or a bullseye 
+
+To do:
+1. Testing
+2. Functionality for missed throws
+3. Functionality for 0 scores (the black part)
+*/
+
+
 
