@@ -3,6 +3,8 @@ const bullseye = document.getElementById('bullseye');
 const sngl25 = document.getElementById('sngl_25')
 const counter = document.getElementById('counter');
 let turnsList = document.getElementById('turns-list');
+let missedButton = document.getElementById('missed-button');
+let outerCircle = document.getElementById('outer_circle');
 
 let count = 50;
 counter.innerText = String(count);
@@ -41,10 +43,17 @@ if(count === 0 && (e.target.id.includes("dbl") || e.target.id === 'bullseye') ){
     counter.innerText = String(count);
     clearList();
     counter.innerText = "You're bust :("
+} else if (count === 0 && (!e.target.id.includes("dbl")) ){
+    count = count + turnsArray.reduce((prev, cur) => prev + cur, 0);
+    counter.innerText = String(count);
+    clearList();
+    counter.innerText = "You need to finish with a double or bullseye"
 }
 
 console.log("count just changed", count)}
 
+outerCircle.addEventListener('click', (e) => handleClick(0,e));
+missedButton.addEventListener('click', (e) => handleClick(0,e));
 bullseye.addEventListener('click', (e) => handleClick(50,e));
 sngl25.addEventListener('click', (e) => handleClick(25,e)
 );
@@ -74,7 +83,7 @@ idArray.map((id) => {
 
 /*
 Endgame rules:
-1. Has to end on exactly 0
+1. Has to end on exactly 0 - done
 2. If the current throw puts the score below zero, all the throws in current turn get reversed.
 3. The last throw has to be a double or a bullseye 
 
