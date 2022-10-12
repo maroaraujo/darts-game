@@ -80,7 +80,7 @@ idArray.map((id) => {
 
 });
 
-
+export {handleClick}; 
 /*
 Endgame rules:
 1. Has to end on exactly 0 - done
