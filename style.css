@@ -22,11 +22,11 @@ body {
   margin: 0;
 }
 
-#wrapper {
+/* #wrapper {
   display: flex;
   align-items: center;
   flex-direction: column-reverse;
-}
+} */
 
 #turns {
   background-color: blue;
