@@ -1,4 +1,42 @@
-#svg8 {
-    max-width: 90vw;
-    max-height: 90vw;
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0;
+  height: 100vh;
+  background-color: pink;
+  padding: 0;
+  margin: 0;
 }
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+#counter {
+  background-color: green;
+}
+#turns {
+  background-color: blue;
+}
+
+#turns-list {
+  background-color: orange;
+}
+
+#svg8 {
+  max-width: 90vw;
+  max-height: 90vh;
+  background-color: red;
+}
+
+/* 4. Styling:
+    a. SVG not to exceed viewpot hight. 
+    b. Score to be displayed in the middle
+    c. Turns list to be displayed to the side
+    d. LCD font for score + turns list
+    e. Missed button- large (width of board?) and in the middle
+    f. Background (billiard green? Wallpaper design?)
+5. Spacebar shortcut for missed throws.  */
