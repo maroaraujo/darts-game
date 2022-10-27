@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'custom-main';
+  src: url('assets/CursedTimerUlil-Aznm.ttf');
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -8,6 +13,7 @@ body {
   background-color: pink;
   padding: 0;
   margin: 0;
+  font-family: 'custom-main', Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 * {
