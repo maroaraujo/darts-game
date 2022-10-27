@@ -27,7 +27,7 @@ body {
 }
 
 #svg8 {
-  max-width: 90vw;
+  width: auto;
   max-height: 90vh;
   background-color: red;
 }
