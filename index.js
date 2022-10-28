@@ -11,7 +11,7 @@ document.body.addEventListener("keydown", (e) => {
   }
 });
 
-let count = 50;
+let count = 6;
 counter.innerText = String(count);
 let turnsArray = [];
 let idArray = [];
