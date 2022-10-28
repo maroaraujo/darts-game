@@ -19,6 +19,9 @@ function clearList() {
   for (let i = 0; i < turnsArray.length; i++) {
     turnsList.removeChild(turnsList.firstChild);
   }
+  //Unless we clear the turnsArray (in addtion to clearing the turnsList, which we do above),
+  //we will get this error: "Uncaught TypeError: Failed to execute 'removeChild' on 'Node': parameter 1 is not of type 'Node'."
+  turnsArray = [];
 }
 
 function handleClick(num, e) {
@@ -54,7 +57,7 @@ function handleClick(num, e) {
     clearList();
     counter.innerText = "U need dbl or bullseye";
   }
-
+  console.log(turnsArray);
   console.log("count just changed", count);
 }
 
