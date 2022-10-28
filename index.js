@@ -52,7 +52,7 @@ function handleClick(num, e) {
     count = count + turnsArray.reduce((prev, cur) => prev + cur, 0);
     counter.innerText = String(count);
     clearList();
-    counter.innerText = "You need to finish with a double or bullseye";
+    counter.innerText = "U need dbl or bullseye";
   }
 
   console.log("count just changed", count);

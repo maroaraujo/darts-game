@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'custom-main';
-  src: url('assets/CursedTimerUlil-Aznm.ttf');
+  font-family: "custom-main";
+  src: url("assets/CursedTimerUlil-Aznm.ttf");
 }
 
 body {
@@ -11,11 +11,11 @@ body {
   justify-content: space-around;
   gap: 0;
   height: 100vh;
-  background-image: url('./assets/dart-bg.jpg');
+  background-image: url("./assets/dart-bg.jpg");
   /* background-color: pink; */
   padding: 0;
   margin: 0;
-  font-family: 'custom-main', Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: "custom-main", Arial, "Helvetica Neue", Helvetica, sans-serif;
   color: orange;
 }
 
@@ -40,7 +40,8 @@ h1 {
 
 #turns-list {
   display: flex;
-  list-style: none;font-size: 5vh;
+  list-style: none;
+  font-size: 5vh;
   justify-content: center;
   gap: 5vh;
   height: 1.2em;
@@ -69,24 +70,27 @@ button.missed-btn {
 
 @media screen and (max-width: 550px) {
   body {
-    width: 100vw;
+    /* display: initial; */
   }
   /* current font size good until long message (you need to check out on double) */
   h1 {
-   font-size: 4vh;
+    font-size: 4vh;
   }
   .scoreboard {
-   min-width: none;
-   width: 90%;
+    width: auto;
+    min-width: none;
+    overflow-x: hidden;
+  }
+  #turns-list {
+    gap: 0;
   }
   #svg8 {
-   width: 70vw;
+    width: 70vw;
   }
   button.missed-btn {
     width: 60vw;
   }
- }
-
+}
 
 /* 4. Styling:
     a. SVG not to exceed viewpot hight. 
@@ -96,4 +100,3 @@ button.missed-btn {
     e. Missed button- large (width of board?) and in the middle
     f. Background (billiard green? Wallpaper design?)
 5. Spacebar shortcut for missed throws.  */
-
