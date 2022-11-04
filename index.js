@@ -1,84 +1,11 @@
-const bullseye = document.getElementById("bullseye");
-const sngl25 = document.getElementById("sngl_25");
-const counter = document.getElementById("counter");
-let turnsList = document.getElementById("turns-list");
-let missedButton = document.getElementById("missed-button");
-let outerCircle = document.getElementById("outer_circle");
-
-document.body.addEventListener("keydown", (e) => {
-  if (e.code === "Space") {
-    handleClick(0);
-  }
-});
-
 let count = 6;
-counter.innerText = String(count);
 let turnsArray = [];
 let idArray = [];
-function clearList() {
-  for (let i = 0; i < turnsArray.length; i++) {
-    turnsList.removeChild(turnsList.firstChild);
-  }
-  //Unless we clear the turnsArray (in addtion to clearing the turnsList, which we do above),
-  //we will get this error: "Uncaught TypeError: Failed to execute 'removeChild' on 'Node': parameter 1 is not of type 'Node'."
-  turnsArray = [];
-}
+populateIdArray();
 
-function handleClick(num, e) {
-  count -= num;
-  counter.innerText = String(count);
-  let scoreList = document.createElement("li");
-  scoreList.innerText = String(num);
-
-  //As long as the number of turns is less than 3, it adds the current throw score to the turnsArray.
-  //If the number of turns is 3, it clears the list and then adds the current throw score to turnsArray.
-  //Regardless of which condition is triggered, it adds the current throw score to the list.
-  if (turnsArray.length < 3) {
-    turnsArray.push(num);
-  } else {
-    clearList();
-    turnsArray = [num];
-  }
-  turnsList.appendChild(scoreList);
-
-  if (
-    count === 0 &&
-    (e.target.id.includes("dbl") || e.target.id === "bullseye")
-  ) {
-    counter.innerText = "Checked out! :D";
-  } else if (count < 0 || count === 1) {
-    count = count + turnsArray.reduce((prev, cur) => prev + cur, 0);
-    counter.innerText = String(count);
-    clearList();
-    counter.innerText = "You're bust ";
-    const span = document.createElement("span");
-    counter.appendChild(span);
-    span.classList.add("nowrap");
-    span.textContent = ":("
-  } else if (count === 0 && !e.target.id.includes("dbl")) {
-    count = count + turnsArray.reduce((prev, cur) => prev + cur, 0);
-    counter.innerText = String(count);
-    clearList();
-    counter.innerText = "U need dbl or bullseye";
-  }
-  console.log(turnsArray);
-  console.log("count just changed", count);
-}
-
-outerCircle.addEventListener("click", (e) => handleClick(0, e));
-missedButton.addEventListener("click", (e) => handleClick(0, e));
-bullseye.addEventListener("click", (e) => handleClick(50, e));
-sngl25.addEventListener("click", (e) => handleClick(25, e));
-
-for (let i = 1; i < 21; i++) {
-  let currentId = i;
-  idArray.push(currentId);
-}
-//mapping for single scores
+//Grabs all the single, double and triple point fields
+//And adds handleclicks to them:
 idArray.map((id) => {
-  //mapping for single scores
-  // console.log(idArray);
-
   let singlePoints = document.getElementById(`sngl_${id}`);
   let doublePoints = document.getElementById(`dbl_${id}`);
   let triplePoints = document.getElementById(`trpl_${id}`);
@@ -87,6 +14,95 @@ idArray.map((id) => {
   doublePoints.addEventListener("click", (e) => handleClick(id * 2, e));
   triplePoints.addEventListener("click", (e) => handleClick(id * 3, e));
 });
+
+//Grabs all the "special" point fields:
+const bullseye = document.getElementById("bullseye");
+const sngl25 = document.getElementById("sngl_25");
+let turnsList = document.getElementById("turns-list");
+let missedButton = document.getElementById("missed-button");
+let outerCircle = document.getElementById("outer_circle");
+
+//adds handleclicks to the "special" point fields
+outerCircle.addEventListener("click", (e) => handleClick(0, e));
+missedButton.addEventListener("click", (e) => handleClick(0, e));
+bullseye.addEventListener("click", (e) => handleClick(50, e));
+sngl25.addEventListener("click", (e) => handleClick(25, e));
+
+//grabs the counter and puts the initial count in it:
+const counter = document.getElementById("counter");
+counter.innerText = String(count);
+
+//The spacebar shortcut for missed throws:
+document.body.addEventListener("keydown", (e) => {
+  if (e.code === "Space") {
+    handleClick(0);
+  }
+});
+
+/* ------FUNCTION DECLARATIONS--------*/
+
+function clearTurns() {
+  //Clears the turns list that's displayed to the user.
+  for (let i = 0; i < turnsArray.length; i++) {
+    turnsList.removeChild(turnsList.firstChild);
+  }
+  //Clears the turns counter by reducing the length of turnsArray to 0.
+  turnsArray = [];
+}
+
+function handleClick(num, e) {
+  count -= num;
+  counter.innerText = String(count);
+  let turnsListItem = document.createElement("li");
+  turnsListItem.innerText = String(num);
+  turnsList.appendChild(turnsListItem); //This may need to be below the if-else statement
+
+  //Adds current throw to the turnsArray. If the turnsArray is already full, clears it first before adding the throw.
+  if (turnsArray.length < 3) {
+    turnsArray.push(num);
+  } else {
+    clearTurns();
+    turnsArray = [num];
+  }
+  //the turnsList.appendchild may need to go here
+
+  endgame(e);
+}
+
+//The endgame logic. Controls what happens when you try to checkout.
+function endgame(e) {
+  if (
+    count === 0 &&
+    (e.target.id.includes("dbl") || e.target.id === "bullseye")
+  ) {
+    counter.innerText = "Checked out! :D";
+  } else if (count < 0 || count === 1) {
+    updateScoreBoard("You're bust ");
+    const span = document.createElement("span");
+    counter.appendChild(span);
+    span.classList.add("nowrap");
+    span.textContent = ":(";
+  } else if (count === 0 && !e.target.id.includes("dbl")) {
+    updateScoreBoard("U need dbl or bullseye");
+  }
+  console.log(turnsArray);
+  console.log("count just changed", count);
+}
+
+function updateScoreBoard(message) {
+  //Adds the previous turns BACK into the turnsArray:
+  count = count + turnsArray.reduce((prev, cur) => prev + cur, 0);
+  clearTurns();
+  counter.innerText = message;
+}
+
+function populateIdArray() {
+  for (let i = 1; i < 21; i++) {
+    let currentId = i;
+    idArray.push(currentId);
+  }
+}
+//mapping for single scores
 
 export { handleClick };
 /*
