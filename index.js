@@ -50,7 +50,11 @@ function handleClick(num, e) {
     count = count + turnsArray.reduce((prev, cur) => prev + cur, 0);
     counter.innerText = String(count);
     clearList();
-    counter.innerText = "You're bust :(";
+    counter.innerText = "You're bust ";
+    const span = document.createElement("span");
+    counter.appendChild(span);
+    span.classList.add("nowrap");
+    span.textContent = ":("
   } else if (count === 0 && !e.target.id.includes("dbl")) {
     count = count + turnsArray.reduce((prev, cur) => prev + cur, 0);
     counter.innerText = String(count);
