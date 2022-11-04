@@ -1,4 +1,4 @@
-let count = 6;
+let count = 501;
 let turnsArray = [];
 let idArray = [];
 populateIdArray();
